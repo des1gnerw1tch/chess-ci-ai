@@ -2,3 +2,6 @@
 Collective intelligent chess ai
 
 hi bob
+
+hi joe
+agei;as
