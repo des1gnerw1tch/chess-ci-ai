@@ -29,7 +29,7 @@ class GameOverStatus(Enum):
     IN_PROGRESS = 0
     WHITE_WIN = 1
     BLACK_WIN = 2
-    STALEMATE = 3
+    DRAW = 3
 
 class Piece(Enum):
     PAWN = 0
