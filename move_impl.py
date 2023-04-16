@@ -9,9 +9,9 @@ class MoveImpl(IMove):
     # MoveImpl constructor
     # Arguments: a Spot location, a Spot destination
     # Purpose: Initialize location and destination Spots
-    def __init__(self, LocationSpot, DestinationSpot):
-        self.location = LocationSpot
-        self.destination = DestinationSpot
+    def __init__(self, locationSpot, destinationSpot):
+        self.location = locationSpot
+        self.destination = destinationSpot
     
     # getDestination
     # Arguments: none
