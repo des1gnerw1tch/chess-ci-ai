@@ -28,13 +28,13 @@ class IChessModelState(metaclass = ABCMeta):
         pass
 
     @abstractmethod
-    def getValidMoves() -> List[IMove]:
+    def getValidMoves(self) -> List[IMove]:
         pass
 
     @abstractmethod
-    def getGameOverStatus() -> GameOverStatus:
+    def getGameOverStatus(self) -> GameOverStatus:
         pass
 
     @abstractmethod
-    def isInCheck() -> bool:
+    def isInCheck(self) -> bool:
         pass
