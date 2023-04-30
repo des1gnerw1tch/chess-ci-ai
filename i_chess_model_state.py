@@ -38,3 +38,7 @@ class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def isInCheck(self) -> bool:
         pass
+
+    @abstractmethod
+    def printAsciiViewIfAvailable() -> str:
+        pass

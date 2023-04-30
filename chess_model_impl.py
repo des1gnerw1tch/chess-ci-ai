@@ -37,4 +37,7 @@ class ChessModelImpl(IChessModel):
 
     def movePiece(self, move: IMove) -> None:
         pass
+
+    def printAsciiViewIfAvailable() -> str:
+        pass
     
