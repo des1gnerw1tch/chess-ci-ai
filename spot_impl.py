@@ -6,7 +6,7 @@ class SpotImpl(ISpot):
     row = None
     col = None
     
-    def __init__(self, col, row):
+    def __init__(self, col : str, row : int):
         if col not in ["a", "b", "c", "d", "e", "f", "g", "h"]:
             raise ValueError("Column must be a string from a-h")
         if row < 1 or row > 8:
