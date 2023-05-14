@@ -24,3 +24,8 @@ class MoveImpl(IMove):
     # Purpose: Return current Spot location of chess piece
     def getLocation(self):
         return self.location
+    
+    def getMoveAsString(self) -> str:
+        move = self.location.getSpotAsString() + self.destination.getSpotAsString()
+
+        return move

@@ -20,3 +20,8 @@ class SpotImpl(ISpot):
 
     def getCol(self) -> str:
         return self.col
+    
+    def getSpotAsString(self) -> str:
+        self.spot = self.col + self.row
+
+        return self.spot
