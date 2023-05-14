@@ -14,14 +14,15 @@ class GameOverStatus(Enum):
     DRAW = 3
 
 class Piece(Enum):
-    PAWN = 0
-    ROOK = 1
-    KNIGHT = 2
-    BISHOP = 3
-    QUEEN = 4
-    KING = 5
+    BLANK = 0
+    PAWN = 1
+    ROOK = 2
+    KNIGHT = 3
+    BISHOP = 4
+    QUEEN = 5
+    KING = 6
 
-# A spot on the chess board. 
+# The state of the chess game
 class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def getPieceAtSpot(self, spot: ISpot) -> Piece:
@@ -34,11 +35,17 @@ class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def getGameOverStatus(self) -> GameOverStatus:
         pass
-
+    
+    # Returns if either team is in check
     @abstractmethod
     def isInCheck(self) -> bool:
         pass
 
     @abstractmethod
-    def printAsciiViewIfAvailable() -> str:
+    def printAsciiViewIfAvailable(self) -> str:
+        pass
+    
+    # If move is legal, not including pseudo legal moves
+    @abstractmethod
+    def isMoveLegal(self, move: IMove) -> bool:
         pass
