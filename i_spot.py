@@ -9,3 +9,7 @@ class ISpot(metaclass = ABCMeta):
     @abstractmethod
     def getCol() -> str:
         pass
+    
+    @abstractmethod
+    def getSpotAsString() -> str:
+        pass
