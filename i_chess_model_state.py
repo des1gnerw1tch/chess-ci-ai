@@ -22,6 +22,10 @@ class Piece(Enum):
     QUEEN = 5
     KING = 6
 
+class PlayerColor(Enum):
+    WHITE = 0
+    BLACK = 1
+
 # The state of the chess game
 class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
@@ -45,7 +49,13 @@ class IChessModelState(metaclass = ABCMeta):
     def printAsciiViewIfAvailable(self) -> str:
         pass
     
-    # If move is legal, not including pseudo legal moves
+    # If move is legal, not including pseudo legal moves. Takes into account whose 
+    # turn it is.
     @abstractmethod
     def isMoveLegal(self, move: IMove) -> bool:
+        pass
+
+    # Return whose turn it is in the game
+    @abstractmethod
+    def getWhoseTurn(self) -> PlayerColor:
         pass

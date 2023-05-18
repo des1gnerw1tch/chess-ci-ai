@@ -1,6 +1,6 @@
 from i_chess_model import IChessModel
 from i_spot import ISpot
-from i_chess_model_state import Piece, GameOverStatus
+from i_chess_model_state import Piece, GameOverStatus, PlayerColor
 from i_move import IMove
 from move_impl import MoveImpl
 from spot_impl import SpotImpl
@@ -98,6 +98,13 @@ class ChessModelImpl(IChessModel):
 
     def printAsciiViewIfAvailable(self) -> str:
         return str(self.chess_board)
+
+    # TODO: Test
+    def getWhoseTurn(self) -> PlayerColor:
+        if self.chess_board.turn == WHITE:
+            return PlayerColor.WHITE
+        else:
+            return PlayerColor.BLACK
 
     # Returns the chess.Square index of the ISpot to be used by this chess module
     def __iSpotToSquare(self, spot: ISpot) -> Square:
