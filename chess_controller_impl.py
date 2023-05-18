@@ -35,7 +35,8 @@ class ChessControllerImpl(IChessController):
             else:
                 print("Move not valid.")
 
-        print("Game over. Result: " + self.model.getGameOverStatus())
+        print("Game over. Result: " + str(self.model.getGameOverStatus()))
+        self.view.printBoard()
         return self.model.getGameOverStatus()
 
 

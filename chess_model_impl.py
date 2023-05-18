@@ -53,7 +53,7 @@ class ChessModelImpl(IChessModel):
 
             myMove = MoveImpl(fromSpot, toSpot)
 
-            myLegalMoves.append(myMove.getMoveAsString())
+            myLegalMoves.append(myMove)
 
         return myLegalMoves
 
