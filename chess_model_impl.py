@@ -1,11 +1,14 @@
+from argparse import ArgumentError
 from i_chess_model import IChessModel
 from i_spot import ISpot
-from i_chess_model_state import Piece, GameOverStatus, PlayerColor
+from game_over_status import GameOverStatus
+from piece import Piece
+from player_color import PlayerColor
 from i_move import IMove
 from move_impl import MoveImpl
 from spot_impl import SpotImpl
 from typing import List
-from chess import Board, Move, WHITE, BLACK, Square, parse_square
+from chess import Board, Move, WHITE, BLACK, Square, parse_square, PieceType, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
 
 # This model implements chess with the "chess" python module. A great descriptive name
 # for a chess module!
@@ -51,7 +54,7 @@ class ChessModelImpl(IChessModel):
             fromSpot = SpotImpl((move.uci())[0], int((move.uci())[1]))
             toSpot = SpotImpl((move.uci())[2], int((move.uci())[3]))
 
-            myMove = MoveImpl(fromSpot, toSpot)
+            myMove = MoveImpl(fromSpot, toSpot, self.__theirPieceToOurPiece(move.promotion))
 
             myLegalMoves.append(myMove)
 
@@ -113,4 +116,37 @@ class ChessModelImpl(IChessModel):
 
     def __iMoveToMove(self, i_move : IMove):
         return Move(self.__iSpotToSquare(i_move.getLocation()), 
-        self.__iSpotToSquare(i_move.getDestination()))
+        self.__iSpotToSquare(i_move.getDestination()), 
+        self.__ourPieceToTheirPiece(i_move.getPromotionTypeIfAvailable()))
+
+    # Translates our Piece type to the chess modules PieceType type
+    def __ourPieceToTheirPiece(self, piece : Piece) -> PieceType:
+        if (piece == Piece.BISHOP):
+            return BISHOP
+        elif (piece == Piece.KING):
+            return KING
+        elif (piece == Piece.PAWN):
+            return PAWN
+        elif (piece == Piece.ROOK):
+            return ROOK
+        elif (piece == Piece.QUEEN):
+            return QUEEN
+        elif (piece == Piece.KNIGHT):
+            return KNIGHT
+        return None
+
+    # Translates their PieceType type our Piece type
+    def __theirPieceToOurPiece(self, piece : PieceType) -> Piece:
+        if (piece == BISHOP):
+            return Piece.BISHOP
+        elif (piece == KING):
+            return Piece.KING
+        elif (piece == PAWN):
+            return Piece.PAWN
+        elif (piece == ROOK):
+            return Piece.ROOK
+        elif (piece == QUEEN):
+            return Piece.QUEEN
+        elif (piece == KNIGHT):
+            return Piece.KNIGHT
+        return None

@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from i_chess_model_state import GameOverStatus
+from game_over_status import GameOverStatus
 
 
 # A player in chess... Could be AI or Human.

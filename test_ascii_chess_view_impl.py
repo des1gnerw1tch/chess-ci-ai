@@ -2,7 +2,6 @@ import unittest
 from spot_impl import SpotImpl
 from i_ascii_chess_view_impl import IAsciiChessViewImpl
 from chess_model_impl import ChessModelImpl
-from i_chess_model_state import IChessModelState
 
 class TestSpotImpl(unittest.TestCase):
 

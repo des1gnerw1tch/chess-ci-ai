@@ -1,7 +1,7 @@
-from pyexpat import model
 from i_chess_controller import IChessController
 from i_chess_model import IChessModel
-from i_chess_model_state import GameOverStatus, PlayerColor
+from game_over_status import GameOverStatus
+from player_color import PlayerColor
 from i_player import IPlayer
 from i_ascii_chess_view import IAsciiChessView
 
