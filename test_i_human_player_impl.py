@@ -8,10 +8,11 @@ class TestSpotImpl(unittest.TestCase):
 
     def setUp(self):
         self.chessModel = ChessModelImpl()
+        self.chessModelState = IChessModelState()
         self.player1 = HumanPlayerImpl()
         self.player2 = HumanPlayerImpl()
 
     def testGetNextMove(self):
         print("\n")
-        move = self.player1.getNextMove()
+        move = self.player1.getNextMove(self.chessModelState)
         print(move.getMoveAsString())
