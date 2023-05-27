@@ -9,17 +9,17 @@ class TestSpotImpl(unittest.TestCase):
 
     def setUp(self):
         self.chessModel = ChessModelImpl()
-        self.player1 = HumanPlayerImpl()
-        self.player2 = HumanPlayerImpl()
+        self.player1 = HumanPlayerImpl(self.chessModel)
+        self.player2 = HumanPlayerImpl(self.chessModel)
 
     def testGetNextMove_0(self):
         print("\n")
-        move = self.player1.getNextMove(self.chessModel)
+        move = self.player1.getNextMove()
         self.assertEqual(move.getMoveAsString(), "a2a8")
         self.assertEqual(move.getPromotionTypeIfAvailable().name, "KING")
 
     def testGetNextMove_1(self):
         print("\n")
-        move = self.player1.getNextMove(self.chessModel)
+        move = self.player1.getNextMove()
         self.assertEqual(move.getMoveAsString(), "b2b1")
         self.assertEqual(move.getPromotionTypeIfAvailable().name, "ROOK")

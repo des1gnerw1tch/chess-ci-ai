@@ -7,5 +7,5 @@ from i_chess_model_state import IChessModelState
 class IPlayer(metaclass = ABCMeta):
     
     @abstractmethod
-    def getNextMove(boardState: IChessModelState) -> IMove:
+    def getNextMove(self) -> IMove:
         pass
