@@ -2,7 +2,7 @@ from chess_model_impl import ChessModelImpl
 from i_ascii_chess_view_impl import IAsciiChessViewImpl
 from ai_random_moves_player import AIRandomMovesPlayer
 from chess_controller_impl import ChessControllerImpl
-from i_chess_model_state import GameOverStatus
+from game_over_status import GameOverStatus
 
 def makeGame():
     model = ChessModelImpl()

@@ -2,7 +2,9 @@ from ast import Assert
 import unittest
 from chess_model_impl import ChessModelImpl
 from spot_impl import SpotImpl
-from i_chess_model_state import Piece, GameOverStatus
+from piece import Piece
+from game_over_status import GameOverStatus
+from player_color import PlayerColor
 from move_impl import MoveImpl
 
 class TestChessModelImpl(unittest.TestCase):
@@ -88,6 +90,12 @@ class TestChessModelImpl(unittest.TestCase):
         pass
         # Let's just assume this one works
         
+    def test_getWhoseTurn(self):
+        # Test legal move
+        board = ChessModelImpl()
+        self.assertEqual(board.getWhoseTurn(), PlayerColor.WHITE)
+        board.movePiece(MoveImpl(SpotImpl("d", 2), SpotImpl("d", 4)))
+        self.assertEqual(board.getWhoseTurn(), PlayerColor.BLACK)
     
     if __name__ == '__main__':
         unittest.main()

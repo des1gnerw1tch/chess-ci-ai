@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from game_over_status import GameOverStatus
 
 
 # A player in chess... Could be AI or Human.
@@ -6,5 +7,5 @@ class IChessController(metaclass = ABCMeta):
 
     # Starts the chess game. 
     @abstractmethod
-    def run() -> None:
+    def run(self) -> GameOverStatus:
         pass
