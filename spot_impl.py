@@ -25,3 +25,6 @@ class SpotImpl(ISpot):
         self.spot = self.col + self.row
 
         return self.spot
+    
+    def equals(self, spot : ISpot) -> bool:
+        return self.getRow() == spot.getRow() and self.getCol() == spot.getCol()
