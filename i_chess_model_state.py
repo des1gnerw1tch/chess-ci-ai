@@ -39,3 +39,15 @@ class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def getWhoseTurn(self) -> PlayerColor:
         pass
+
+    # Get the ID of a piece depending on the spot. If spot does not have
+    # piece, will return -1
+    @abstractmethod
+    def getPieceIDFromSpot(self, spot : ISpot) -> int:
+        pass
+
+    # Gets the spot of a piece ID. If piece does not exist (has been captured),
+    # will return None
+    @abstractmethod
+    def getSpotByPieceID(self, id : int) -> ISpot:
+        pass

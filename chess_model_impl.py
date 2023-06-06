@@ -108,6 +108,14 @@ class ChessModelImpl(IChessModel):
             return PlayerColor.WHITE
         else:
             return PlayerColor.BLACK
+    
+    #TODO: Implement
+    def getPieceIDFromSpot(self, spot : ISpot) -> int:
+        pass
+
+    #TODO: Implement
+    def getSpotByPieceID(self, id : int) -> ISpot:
+        pass
 
     # Returns the chess.Square index of the ISpot to be used by this chess module
     def __iSpotToSquare(self, spot: ISpot) -> Square:

@@ -13,3 +13,7 @@ class ISpot(metaclass = ABCMeta):
     @abstractmethod
     def getSpotAsString() -> str:
         pass
+
+    @abstractmethod
+    def equals(spot : 'ISpot') -> bool:
+        pass
