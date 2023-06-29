@@ -17,3 +17,11 @@ class ISpot(metaclass = ABCMeta):
     @abstractmethod
     def equals(spot : 'ISpot') -> bool:
         pass
+
+    @abstractmethod
+    def distanceTo(spot : 'ISpot') -> float: 
+        pass
+
+    @abstractmethod
+    def distanceToNorm(spot : 'ISpot') -> float:
+        pass

@@ -51,3 +51,13 @@ class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def getSpotByPieceID(self, id : int) -> ISpot:
         pass
+
+    # Gets the PlayerColor (black or white) of the piece at a specified spot
+    @abstractmethod
+    def _getColorAtSpot(self, spot : ISpot) -> PlayerColor:
+        pass
+
+    # Gets all spots occupied by pieces of a given color (black or white)
+    @abstractmethod
+    def getSpotsWithPiecesOfColor(self, color : PlayerColor) -> List[ISpot]:
+        pass
