@@ -8,6 +8,7 @@ from i_move import IMove
 from move_impl import MoveImpl
 from spot_impl import SpotImpl
 from typing import List
+from typing import Union
 from chess import Board, Move, WHITE, BLACK, Square, parse_square, PieceType, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
 
 # This model implements chess with the "chess" python module. A great descriptive name
@@ -158,3 +159,38 @@ class ChessModelImpl(IChessModel):
         elif (piece == KNIGHT):
             return Piece.KNIGHT
         return None
+    
+    # Gets color at given spot
+    def _getColorAtSpot(self, spot : ISpot) -> PlayerColor:
+        square = self.__iSpotToSquare(spot)
+        color = self.chess_board.color_at(square)
+
+        if (color == True):
+            return PlayerColor.WHITE
+        elif(color == False):
+            return PlayerColor.BLACK
+        return None
+    
+    # Gets all spots occupied by pieces of a given color
+    def getSpotsWithPiecesOfColor(self, color : PlayerColor) -> List[ISpot]:
+        allSpots = list()
+        currRow = 1
+        currCol = 'a'
+
+        # initialize list of all spots on board
+        while (currCol != "f"):
+            while (currRow != 9):
+                allSpots.append(SpotImpl(currCol, currRow))
+                currRow += 1
+
+            # increment column character
+            currCol = chr(ord(currCol) + 1)
+        
+        spotsWithPiecesOfColor = list()
+
+        # iterate through spots on board
+        for spot in allSpots:
+            if (self._getColorAtSpot(spot) == color):
+                spotsWithPiecesOfColor.append(spot)
+
+        return spotsWithPiecesOfColor

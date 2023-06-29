@@ -96,6 +96,16 @@ class TestChessModelImpl(unittest.TestCase):
         self.assertEqual(board.getWhoseTurn(), PlayerColor.WHITE)
         board.movePiece(MoveImpl(SpotImpl("d", 2), SpotImpl("d", 4)))
         self.assertEqual(board.getWhoseTurn(), PlayerColor.BLACK)
-    
+
+    def test_getColorAtSpot(self):
+        self.assertEqual(self.chess_model._getColorAtSpot(SpotImpl("a", 1)), PlayerColor.WHITE)
+        self.assertEqual(self.chess_model._getColorAtSpot(SpotImpl("a", 8)), PlayerColor.BLACK)
+        self.assertEqual(self.chess_model._getColorAtSpot(SpotImpl("f", 2)), PlayerColor.WHITE)
+        self.assertEqual(self.chess_model._getColorAtSpot(SpotImpl("f", 7)), PlayerColor.BLACK)
+        self.assertEqual(self.chess_model._getColorAtSpot(SpotImpl("f", 5)), None)
+
+    def test_getSpotsWithPiecesOfColor(self):
+        self.chess_model.getSpotsWithPiecesOfColor(PlayerColor.WHITE)
+
     if __name__ == '__main__':
         unittest.main()
