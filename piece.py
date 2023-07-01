@@ -23,12 +23,16 @@ def pieceToValue(piece : Piece):
     if (piece is Piece.KING):
         raise ValueError('King has no assigned value')
 
-# Name:    pieceToValueNorm
-# Purpose: normalize piece value on 0-1 scale. 0 represents a pawn (minimum-value
-#          piece). 1 represents queen (maximum-value piece). NOTE: maximum is
-#          not the king.
-# Returns: normalized piece value
+
+
 def pieceToValueNorm(piece : Piece) -> float:
+    """
+    Name:    pieceToValueNorm
+    Purpose: normalize piece value on 0-1 scale. 0 represents a pawn (minimum-value
+    piece). 1 represents queen (maximum-value piece). NOTE: maximum is
+    not the king.
+    Returns: normalized piece value
+    """
     max = 9 
     min = 1
 

@@ -178,11 +178,11 @@ class ChessModelImpl(IChessModel):
         currCol = 'a'
 
         # initialize list of all spots on board
-        while (currCol != "f"):
+        while (currCol != "i"):
+            currRow = 1
             while (currRow != 9):
                 allSpots.append(SpotImpl(currCol, currRow))
                 currRow += 1
-
             # increment column character
             currCol = chr(ord(currCol) + 1)
         
