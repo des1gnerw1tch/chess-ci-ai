@@ -6,12 +6,14 @@ from game_over_status import GameOverStatus
 from i_human_player_impl import HumanPlayerImpl
 from bot_ci_0 import BotCI0
 from bot_ci_1 import BotCI1
+from bot_ci_2 import BotCI2
 
 def makeGame():
     model = ChessModelImpl()
     view = IAsciiChessViewImpl(model)
     white_player = BotCI0(model)
-    black_player = BotCI1(model)
+    black_player = BotCI2(model, 2, 1, 1000)
+    #black_player = BotCI1(model)
     return ChessControllerImpl(model, view, white_player, black_player)
 
 
