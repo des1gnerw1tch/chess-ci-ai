@@ -63,6 +63,7 @@ class BotCI2(IPlayer):
 
         # Get the scores for each enemy spot. High score indicates more want to approach.
         # Don't score any enemy spot that is not within reach of proximity (maxProximityDistance)
+        kingSpot = None
         for enemySpot in enemySpots:
             if attackingSpot.distanceTo(enemySpot) > self.maxProximityDistance:
                 continue
@@ -85,8 +86,15 @@ class BotCI2(IPlayer):
                 highestScoringEnemySpots.append(spot)
 
         if (len(highestScoringEnemySpots) == 0):
-            print("No pieces left to follow! Now will move towards king.")
-            highestScoringEnemySpots.append(kingSpot)
+            print("No pieces left to follow! Now will check if king is visible")
+            if (kingSpot is None):
+                print("No kings are visible. Will choose a random spot to move to.")
+                randMoves = getMovesFromSpot(self.state, attackingSpot)
+                return randMoves[randint(0, len(randMoves) - 1)].getDestination()
+            else:
+                print("Moving towards king!")
+                return kingSpot
+            
 
         return highestScoringEnemySpots[randint(0, len(highestScoringEnemySpots) - 1)]
         
