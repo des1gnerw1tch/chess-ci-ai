@@ -56,7 +56,14 @@ class IChessModelState(metaclass = ABCMeta):
     # Gets all spots occupied by pieces of a given color (black or white)
     @abstractmethod
     def getSpotsWithPiecesOfColor(self, color : PlayerColor) -> List[ISpot]:
-        """
-        Gets all spots with pieces of a color 
-        """
+        pass
+
+    # Gets FEN from current board
+    @abstractmethod
+    def getFen(self) -> str:
+        pass
+
+    # Convert string move in algebraic notation into our move type
+    @abstractmethod
+    def theirMoveToOurMove(self, stockfishMove) -> IMove:
         pass
