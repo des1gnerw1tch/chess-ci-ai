@@ -107,5 +107,9 @@ class TestChessModelImpl(unittest.TestCase):
     def test_getSpotsWithPiecesOfColor(self):
         self.chess_model.getSpotsWithPiecesOfColor(PlayerColor.WHITE)
 
+    def test_getFen(self):
+        fen = self.chess_model.getFen()
+        print("FEN IS: " + fen)
+
     if __name__ == '__main__':
         unittest.main()

@@ -194,3 +194,16 @@ class ChessModelImpl(IChessModel):
                 spotsWithPiecesOfColor.append(spot)
 
         return spotsWithPiecesOfColor
+    
+    # Gets FEN from current board
+    def getFen(self) -> str:
+        fen = self.chess_board.board_fen()
+        return fen
+    
+    # Convert string move in algebraic notation into our move type
+    def theirMoveToOurMove(self, stockfishMove) -> IMove:
+        theirLocation = SpotImpl(stockfishMove[0], int(stockfishMove[1]))
+        theirDestination = SpotImpl(stockfishMove[2], int(stockfishMove[3]))
+        ourMove = MoveImpl(theirLocation, theirDestination, Piece.QUEEN)
+
+        return ourMove
