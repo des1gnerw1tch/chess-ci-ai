@@ -21,6 +21,7 @@ class ChessControllerImpl(IChessController):
     def run(self) -> GameOverStatus:
 
         while(self.model.getGameOverStatus() == GameOverStatus.IN_PROGRESS):
+            print("Fen: " + self.model.getFen())
             self.view.printBoard()
             move = None
             if (self.model.getWhoseTurn() == PlayerColor.WHITE):

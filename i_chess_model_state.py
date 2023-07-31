@@ -65,5 +65,5 @@ class IChessModelState(metaclass = ABCMeta):
 
     # Convert string move in algebraic notation into our move type
     @abstractmethod
-    def theirMoveToOurMove(self, stockfishMove) -> IMove:
+    def stockfishMoveToOurMove(self, stockfishMove) -> IMove:
         pass

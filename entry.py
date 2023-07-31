@@ -7,13 +7,16 @@ from i_human_player_impl import HumanPlayerImpl
 from bot_ci_0 import BotCI0
 from bot_ci_1 import BotCI1
 from bot_ci_2 import BotCI2
+from bot_stockfish import BotStockfish
+
 
 def makeGame():
     model = ChessModelImpl()
     view = IAsciiChessViewImpl(model)
-    white_player = BotCI0(model)
-    black_player = BotCI2(model, 2, 1, 1000)
-    #black_player = BotCI1(model)
+    white_player = BotCI2(model, 2, 1, 1000)
+    #white_player = BotStockfish(model, 1200, 30)
+    black_player = BotStockfish(model, 10, 1)
+    #white_player = AIRandomMovesPlayer(model)
     return ChessControllerImpl(model, view, white_player, black_player)
 
 
