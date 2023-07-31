@@ -197,13 +197,28 @@ class ChessModelImpl(IChessModel):
     
     # Gets FEN from current board
     def getFen(self) -> str:
-        fen = self.chess_board.board_fen()
+        fen = self.chess_board.fen()
         return fen
     
     # Convert string move in algebraic notation into our move type
-    def theirMoveToOurMove(self, stockfishMove) -> IMove:
+    def stockfishMoveToOurMove(self, stockfishMove : str) -> IMove:
         theirLocation = SpotImpl(stockfishMove[0], int(stockfishMove[1]))
         theirDestination = SpotImpl(stockfishMove[2], int(stockfishMove[3]))
-        ourMove = MoveImpl(theirLocation, theirDestination, Piece.QUEEN)
 
+        promotion = None
+        if (len(stockfishMove) == 5):
+            p = stockfishMove[4]
+            print("Promotion happened!")
+            if (p == "q"):
+                promotion = Piece.QUEEN
+            elif (p == "n"):
+                promotion = Piece.KNIGHT
+            elif (p == "r"):
+                promotion = Piece.ROOK
+            elif (p == "b"):
+                promotion = Piece.BISHOP
+            else:
+                raise ArgumentError("Promotion letter " + p + " not recognized")
+        
+        ourMove = MoveImpl(theirLocation, theirDestination, promotion)
         return ourMove
