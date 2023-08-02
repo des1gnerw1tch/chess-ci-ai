@@ -4,6 +4,7 @@ from game_over_status import GameOverStatus
 from player_color import PlayerColor
 from i_player import IPlayer
 from i_ascii_chess_view import IAsciiChessView
+from i_figure_generator import IFigureGenerator
 
 class ChessControllerImpl(IChessController):
     model : IChessModel = None
@@ -19,7 +20,6 @@ class ChessControllerImpl(IChessController):
 
     #TODO: Test
     def run(self) -> GameOverStatus:
-
         while(self.model.getGameOverStatus() == GameOverStatus.IN_PROGRESS):
             print("Fen: " + self.model.getFen())
             self.view.printBoard()
@@ -37,8 +37,11 @@ class ChessControllerImpl(IChessController):
                 print("Move not valid.")
 
         print("Game over. Result: " + str(self.model.getGameOverStatus()))
+        print("Total moves to checkmate: " + str(self.model.getTotalMoves()))
         self.view.printBoard()
         return self.model.getGameOverStatus()
 
-
+    # Store total moves
+    def getTotalMoves(self) -> int:
+        return self.model.getTotalMoves()
             
