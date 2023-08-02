@@ -9,3 +9,8 @@ class IChessController(metaclass = ABCMeta):
     @abstractmethod
     def run(self) -> GameOverStatus:
         pass
+    
+    # Store total moves
+    @abstractmethod
+    def getTotalMoves(self) -> int:
+        pass
