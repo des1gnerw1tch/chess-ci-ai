@@ -67,3 +67,7 @@ class IChessModelState(metaclass = ABCMeta):
     @abstractmethod
     def stockfishMoveToOurMove(self, stockfishMove) -> IMove:
         pass
+
+    @abstractmethod
+    def getTotalMoves(self) -> int:
+        pass

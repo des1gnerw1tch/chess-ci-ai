@@ -22,6 +22,8 @@ class ChessModelImpl(IChessModel):
             self.chess_board = Board()
         else:
             self.chess_board = Board(fen)
+        
+        self.total_moves = 0
 
     def getPieceAtSpot(self, spot: ISpot) -> Piece:
         square = self.__iSpotToSquare(spot)
@@ -95,6 +97,7 @@ class ChessModelImpl(IChessModel):
     def movePiece(self, move: IMove) -> None:
         move = self.__iMoveToMove(move)
         self.chess_board.push(move)
+        self.total_moves += 1
     
     def isMoveLegal(self, move: IMove):
         move = self.__iMoveToMove(move)
@@ -222,3 +225,6 @@ class ChessModelImpl(IChessModel):
         
         ourMove = MoveImpl(theirLocation, theirDestination, promotion)
         return ourMove
+    
+    def getTotalMoves(self) -> int:
+        return self.total_moves

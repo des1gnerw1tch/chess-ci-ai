@@ -29,12 +29,11 @@ def gameTillWin():
     
     print("Game till a win: " + str(i))
 
-def makeFigure(figure : int):
-    total_moves = makeGame().getTotalMoves()
+def makeFigure(figure : int, total_moves_list : list):
     figureGen = FigureGeneratorImpl()
 
     if (figure == 1):
-        figureGen.figureOneGen(total_moves)
+        figureGen.figureOneGen(total_moves_list)
     elif (figure == 2):
         print("CALLING NONEXISTENT FIGURE")
     
@@ -42,8 +41,11 @@ def playMatches(matches : int):
     draws = 0
     white_wins = 0
     black_wins = 0
+    total_moves_list = list()
+
     for i in range(matches):
-        result = makeGame().run()
+        controller = makeGame()
+        result = controller.run()
         if (result == GameOverStatus.DRAW):
             draws += 1
         elif (result == GameOverStatus.WHITE_WIN):
@@ -51,10 +53,14 @@ def playMatches(matches : int):
         elif (result == GameOverStatus.BLACK_WIN):
             black_wins += 1
     
+        total_moves = controller.getTotalMoves()
+        print("TOTAL MOVES IS: " + str(total_moves))
+        total_moves_list.append(total_moves)
+
     print("White wins: " + str(white_wins))
     print("Black wins: " + str(black_wins))
     print ("Draws: " + str(draws))
-    makeFigure(1)
+    makeFigure(1, total_moves_list)
 
 if __name__ == '__main__':
-    playMatches(1)
+    playMatches(200)

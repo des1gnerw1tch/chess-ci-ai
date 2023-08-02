@@ -17,7 +17,6 @@ class ChessControllerImpl(IChessController):
         self.view = view
         self.white_player = white_player
         self.black_player = black_player
-        self.total_moves = 0
 
     #TODO: Test
     def run(self) -> GameOverStatus:
@@ -34,18 +33,15 @@ class ChessControllerImpl(IChessController):
             
             if (self.model.isMoveLegal(move)):
                 self.model.movePiece(move)
-                self.total_moves += 1
             else:
                 print("Move not valid.")
 
         print("Game over. Result: " + str(self.model.getGameOverStatus()))
-        print("Total moves to checkmate: " + str(self.total_moves))
+        print("Total moves to checkmate: " + str(self.model.getTotalMoves()))
         self.view.printBoard()
         return self.model.getGameOverStatus()
-    
+
+    # Store total moves
     def getTotalMoves(self) -> int:
-        return self.total_moves
-
-
-
+        return self.model.getTotalMoves()
             
