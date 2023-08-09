@@ -8,7 +8,7 @@ from i_figure_generator import IFigureGenerator
 
 class FigureGeneratorImpl(IFigureGenerator):
 
-    # Generate a distribution of total moves made to checkmate.
+    # Generate a histogram distribution of total moves made to checkmate.
     def figureOneGen(self, total_moves_list):
         data = total_moves_list
 
@@ -16,7 +16,7 @@ class FigureGeneratorImpl(IFigureGenerator):
         plt.hist(data, bins=len(total_moves_list), edgecolor='black')
 
         # Add labels and title
-        # plt.title("Histogram Example")
+        plt.title("BotStockfish(ELO 4000) vs BotStockfish(ELO 0): 10 matches", pad=20)
         plt.xlabel("Total moves")
         plt.ylabel("Games")
         plt.legend()

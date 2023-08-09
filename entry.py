@@ -14,8 +14,8 @@ from bot_stockfish import BotStockfish
 def makeGame():
     model = ChessModelImpl()
     view = IAsciiChessViewImpl(model)
-    white_player = BotCI2(model, 2, 1, 1000)
-    black_player = BotStockfish(model, 0, 10)
+    white_player = BotStockfish(model, 800, 10)
+    black_player = BotStockfish(model, 800, 10)
     #white_player = AIRandomMovesPlayer(model)
     return ChessControllerImpl(model, view, white_player, black_player)
 
@@ -63,4 +63,4 @@ def playMatches(matches : int):
     makeFigure(1, total_moves_list)
 
 if __name__ == '__main__':
-    playMatches(200)
+    playMatches(10)
