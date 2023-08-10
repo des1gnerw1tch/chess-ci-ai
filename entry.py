@@ -8,14 +8,16 @@ from i_figure_generator_impl import FigureGeneratorImpl
 from bot_ci_0 import BotCI0
 from bot_ci_1 import BotCI1
 from bot_ci_2 import BotCI2
+from bot_ci_3 import BotCI3
 from bot_stockfish import BotStockfish
 
 
 def makeGame():
     model = ChessModelImpl()
     view = IAsciiChessViewImpl(model)
-    white_player = BotStockfish(model, 800, 10)
-    black_player = BotStockfish(model, 800, 10)
+    white_player = BotCI2(model, 2, 1, 1000)
+    #black_player = BotCI2(model, 2, 1, 1000)
+    black_player = BotStockfish(model, 0, 10)
     #white_player = AIRandomMovesPlayer(model)
     return ChessControllerImpl(model, view, white_player, black_player)
 
@@ -44,6 +46,7 @@ def playMatches(matches : int):
     total_moves_list = list()
 
     for i in range(matches):
+        print("\n\n ======GAME NUMBER " + str(i) + "==========\n\n")
         controller = makeGame()
         result = controller.run()
         if (result == GameOverStatus.DRAW):
@@ -63,4 +66,4 @@ def playMatches(matches : int):
     makeFigure(1, total_moves_list)
 
 if __name__ == '__main__':
-    playMatches(10)
+    playMatches(100)
