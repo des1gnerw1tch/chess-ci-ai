@@ -66,8 +66,4 @@ def playMatches(matches : int):
     makeFigure(1, total_moves_list)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    playMatches(10)
-=======
-    playMatches(500)
->>>>>>> 0a92439 (Bot CI 3)
+    playMatches(100)
