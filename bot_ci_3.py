@@ -7,7 +7,82 @@ from piece import Piece, pieceToValueNorm
 from bot_utils import getRandomSpotToMoveFrom, getHighestCaptureMove, getMovesFromSpot
 from player_color import PlayerColor
 from typing import List
-from random import randint, random
+from random import randint, random, uniform
+from math import sqrt
+
+class GenomeBotCI3:
+    """
+    The genome for BotCI3. Contains all the behavioral characteristics of the bot. 
+    """
+    def __init__(self, proximityWeight: float, pieceValueWeight: float,
+                maxProximityDistance: float, chanceGoForKing: float):
+        self.proximityWeight = proximityWeight
+        self.pieceValueWeight = pieceValueWeight
+        self.maxProximityDistance = maxProximityDistance
+
+        if (chanceGoForKing > 1 or chanceGoForKing < 0):
+            raise ArgumentError("Chance go for king has to be between 0-1")
+        
+        self.chanceGoForKing = chanceGoForKing
+
+    def crossover(self, other_parent : 'GenomeBotCI3') -> 'GenomeBotCI3':
+        proximityWeight = None
+        pieceValueWeight = None
+        maxProximityDistance = None
+        chanceGoForKing = None
+
+        num1, num2, num3= randint(0,1), randint(0,1), randint(0,1)
+        if num1 == 0:
+            proximityWeight = self.proximityWeight
+            pieceValueWeight = self.pieceValueWeight
+        else:
+            proximityWeight = other_parent.proximityWeight
+            pieceValueWeight = other_parent.pieceValueWeight
+            
+        if num2 == 0:
+            maxProximityDistance = self.maxProximityDistance
+        else:
+            maxProximityDistance = other_parent.maxProximityDistance
+
+        if num3 == 0:
+            chanceGoForKing = self.chanceGoForKing
+        else:
+            chanceGoForKing = other_parent.chanceGoForKing
+
+        return GenomeBotCI3(proximityWeight, pieceValueWeight, maxProximityDistance, chanceGoForKing)
+
+    def mutate(self, mutation_scale : float = 0.1) -> 'GenomeBotCI3':
+        proximityWeight = self.proximityWeight
+        pieceValueWeight = self.pieceValueWeight
+        maxProximityDistance = self.maxProximityDistance
+        chanceGoForKing = self.chanceGoForKing
+
+        num = randint(0, 3)
+        mutation_num = uniform(1 - mutation_scale, 1 + mutation_scale)
+
+        if num == 0:
+            proximityWeight *= mutation_num
+        elif num == 1:
+            pieceValueWeight *= mutation_num
+        elif num == 2:
+            maxProximityDistance *= mutation_num
+        elif num == 3:
+            chanceGoForKing = self._clamp(chanceGoForKing * mutation_num, 0, 1)
+        
+        return GenomeBotCI3(proximityWeight, pieceValueWeight, maxProximityDistance, chanceGoForKing)
+
+    def _clamp(self, v, min_val, max_val):
+        return max(min(v, max_val), min_val)
+
+    @staticmethod
+    def create_random() -> 'GenomeBotCI3':
+        #uniform(0, sqrt(128)) TODO: Fix the variable seeing distance
+        return GenomeBotCI3(randint(0, 10), randint(0, 10), 10000, random())
+
+    def to_string(self) -> str:
+        return "Proximity Weight: " + str(self.proximityWeight) + " Piece Value Weight " + str(self.pieceValueWeight) + " Max Proximity Distance " + str(self.maxProximityDistance) + " Chance go for King " + str(self.chanceGoForKing)
+
+
 
 class BotCI3(IPlayer):
     """
@@ -18,6 +93,12 @@ class BotCI3(IPlayer):
     Builds on BotCI2 by allowing pieces to go for the king more often. The pieces will go for the 
     king based on a given chance (chanceForKing) when there are no capturing moves. 
     """
+
+    @staticmethod
+    def create_from_genome(state: IChessModelState, genome : GenomeBotCI3) -> 'GenomeBotCI3':
+        return BotCI3(state, genome.proximityWeight, genome.pieceValueWeight, genome.maxProximityDistance, genome.chanceGoForKing)
+
+    
     def __init__(self, state : IChessModelState, proximityWeight: float, pieceValueWeight: float,
                 maxProximityDistance: float, chanceGoForKing: float) -> None:
         """
