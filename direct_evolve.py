@@ -14,7 +14,7 @@ from bot_ci_1 import BotCI1
 from game_over_status import GameOverStatus
 
 
-def evolve(num_games_per_round = 20, num_population = 10, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
+def evolve(num_games_per_round = 20, num_population = 20, max_evolution_rounds = 20) -> List[GenomeBotCI3]:
     # Create population
     population : List[GenomeBotCI3] = []
     for i in range(num_population):
@@ -33,15 +33,15 @@ def evolve(num_games_per_round = 20, num_population = 10, max_evolution_rounds =
             
             for i in range(num_games_per_round):
                 model = ChessModelImpl()
-                bot = BotCI3.create_from_genome(model, genome)
-                opponent = AIRandomMovesPlayer(model)
-                view = IAsciiChessViewImpl(model)
+                bot = BotCI3.create_from_genome(model, genome, False)
+                opponent = BotCI1(model, False)
+                view = IAsciiChessViewImpl(model, False)
                 if i % 2 == 0:
                     controller = ChessControllerImpl(model, view, bot, opponent)
                 else:
                     controller = ChessControllerImpl(model, view, opponent, bot)
 
-                game_over_status = controller.run()
+                game_over_status = controller.run(False)
                 
                 if i % 2 == 0 and game_over_status == GameOverStatus.WHITE_WIN:
                     num_wins_per_genome[genome] = num_wins_per_genome[genome] + 1

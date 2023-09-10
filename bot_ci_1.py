@@ -7,19 +7,24 @@ from bot_utils import getRandomSpotToMoveFrom, getHighestCaptureMove, getMovesFr
 # An AI player where will choose a random piece to move, and that piece will try to capture 
 # the maximum value piece
 class BotCI1(IPlayer):
-    def __init__(self, state : IChessModelState) -> None:
+    def __init__(self, state : IChessModelState, show_debug : bool = True) -> None:
         self.state = state
+        self.show_debug = show_debug
 
     def getNextMove(self) -> IMove:
         spot = getRandomSpotToMoveFrom(self.state)
-        print("Spot chosen by Bot 1: " + spot.getSpotAsString())
+        if (self.show_debug):
+            print("Spot chosen by Bot 1: " + spot.getSpotAsString())
         maxCaptureMove = getHighestCaptureMove(self.state, spot)
         if maxCaptureMove is None:
             moves = getMovesFromSpot(self.state, spot)
             result = moves[random.randint(0, len(moves) - 1)]
-            print("Non capture move selected")
+            if (self.show_debug):
+                print("Non capture move selected")
         else:
             result = maxCaptureMove
-            print("Max capture move selected")
-        print("Move chosen by Bot 1: " + result.getMoveAsString())
+            if (self.show_debug):
+                print("Max capture move selected")
+        if (self.show_debug):
+            print("Move chosen by Bot 1: " + result.getMoveAsString())
         return result

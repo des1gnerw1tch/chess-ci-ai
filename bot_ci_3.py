@@ -95,12 +95,12 @@ class BotCI3(IPlayer):
     """
 
     @staticmethod
-    def create_from_genome(state: IChessModelState, genome : GenomeBotCI3) -> 'GenomeBotCI3':
-        return BotCI3(state, genome.proximityWeight, genome.pieceValueWeight, genome.maxProximityDistance, genome.chanceGoForKing)
+    def create_from_genome(state: IChessModelState, genome : GenomeBotCI3, show_debug : bool = True) -> 'GenomeBotCI3':
+        return BotCI3(state, genome.proximityWeight, genome.pieceValueWeight, genome.maxProximityDistance, genome.chanceGoForKing, show_debug)
 
     
     def __init__(self, state : IChessModelState, proximityWeight: float, pieceValueWeight: float,
-                maxProximityDistance: float, chanceGoForKing: float) -> None:
+                maxProximityDistance: float, chanceGoForKing: float, show_debug = True) -> None:
         """
         state: Chess board
         proximityWeight: How much to favor closer pieces when choosing a piece to approach.
@@ -111,6 +111,7 @@ class BotCI3(IPlayer):
         self.proximityWeight = proximityWeight
         self.pieceValueWeight = pieceValueWeight
         self.maxProximityDistance = maxProximityDistance
+        self.show_debug = show_debug
 
         if (chanceGoForKing > 1 or chanceGoForKing < 0):
             raise ArgumentError("Chance go for king has to be between 0-1")
@@ -124,11 +125,14 @@ class BotCI3(IPlayer):
         if maxCaptureMove is None:
             spotToApproach = self._getSpotToApproach(spot)
             move = self._approachSpot(spot, spotToApproach)
-            print("Non capture move selected")
+            if (self.show_debug):
+                print("Non capture move selected")
             result = move
         else:
             result = maxCaptureMove
-        print("Move chosen by Bot 3: " + result.getMoveAsString())
+        
+        if (self.show_debug):
+            print("Move chosen by Bot 3: " + result.getMoveAsString())
         return result
     
 
@@ -148,7 +152,8 @@ class BotCI3(IPlayer):
 
         enemySpots = self.state.getSpotsWithPiecesOfColor(enemyColor)
 
-        print("Spots with color list length: " + str(len(enemySpots)))
+        if (self.show_debug):
+            print("Spots with color list length: " + str(len(enemySpots)))
         enemySpotAndScore = {}
 
         # Get the scores for each enemy spot. High score indicates more want to approach.
@@ -176,23 +181,29 @@ class BotCI3(IPlayer):
                 highestScoringEnemySpots.append(spot)
 
         if (len(highestScoringEnemySpots) == 0):
-            print("No pieces left to follow! Now will check if king is visible")
+            if (self.show_debug):
+                print("No pieces left to follow! Now will check if king is visible")
             if (kingSpot is None):
-                print("No kings are visible. Will choose a random spot to move to.")
+                if (self.show_debug):
+                    print("No kings are visible. Will choose a random spot to move to.")
                 randMoves = getMovesFromSpot(self.state, attackingSpot)
                 return randMoves[randint(0, len(randMoves) - 1)].getDestination()
             else:
-                print("Moving towards king!")
+                if (self.show_debug):
+                    print("Moving towards king!")
                 return kingSpot
             
         # Decide if want to go for king or to go for highest scoring enemy spot, dependent on probablility
         r = random()
-        print("Chance go for king: " + str(self.chanceGoForKing) + " float chosen: " + str(r))
+        if (self.show_debug):
+            print("Chance go for king: " + str(self.chanceGoForKing) + " float chosen: " + str(r))
         if (r < self.chanceGoForKing):
-            print("Going for king!")
+            if (self.show_debug):
+                print("Going for king!")
             return kingSpot
         else:
-            print("Going for highest scoring enemy spot/s")
+            if (self.show_debug):
+                print("Going for highest scoring enemy spot/s")
             return highestScoringEnemySpots[randint(0, len(highestScoringEnemySpots) - 1)]
 
 
@@ -200,8 +211,9 @@ class BotCI3(IPlayer):
         proximityScore = locationOfAttackingPiece.distanceToNorm(enemySpot) * self.proximityWeight
         pieceValueScore = pieceToValueNorm(self.state.getPieceAtSpot(enemySpot)) * self.pieceValueWeight
 
-        print("Spot being scored: " + enemySpot.getSpotAsString() + " Piece Type: " + str(self.state.getPieceAtSpot(enemySpot)) + 
-        " Proximity Score: " + str(proximityScore) + " Piece value score: " + str(pieceValueScore) + " Total Score: " + str(proximityScore + pieceValueScore))
+        if (self.show_debug):
+            print("Spot being scored: " + enemySpot.getSpotAsString() + " Piece Type: " + str(self.state.getPieceAtSpot(enemySpot)) + 
+            " Proximity Score: " + str(proximityScore) + " Piece value score: " + str(pieceValueScore) + " Total Score: " + str(proximityScore + pieceValueScore))
 
         return proximityScore + pieceValueScore
 
@@ -218,11 +230,13 @@ class BotCI3(IPlayer):
         closestDistance : float = float('inf')
         tolerance = 1e-9
 
-        print("Spot moving towards: " + approachSpot.getSpotAsString())
+        if (self.show_debug):
+            print("Spot moving towards: " + approachSpot.getSpotAsString())
 
         for move in moves:
             distance = approachSpot.distanceTo(move.getDestination())
-            print("Move option: " + str(move.getMoveAsString()) + " Distance: " + str(distance))
+            if (self.show_debug):
+                print("Move option: " + str(move.getMoveAsString()) + " Distance: " + str(distance))
             if (abs(distance - closestDistance) < tolerance):
                 movesClosestToApproachSpot.append(move)
             elif (distance < closestDistance):
@@ -230,7 +244,8 @@ class BotCI3(IPlayer):
                 closestDistance = distance
                 movesClosestToApproachSpot.append(move)
             else:
-                print("Move not closer than current high score move")
+                if (self.show_debug):
+                    print("Move not closer than current high score move")
 
         
         return movesClosestToApproachSpot[randint(0, len(movesClosestToApproachSpot) - 1)]

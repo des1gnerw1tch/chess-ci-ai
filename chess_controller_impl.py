@@ -19,25 +19,31 @@ class ChessControllerImpl(IChessController):
         self.black_player = black_player
 
     #TODO: Test
-    def run(self) -> GameOverStatus:
+    def run(self, show_debug = True) -> GameOverStatus:
         while(self.model.getGameOverStatus() == GameOverStatus.IN_PROGRESS):
-            print("Fen: " + self.model.getFen())
-            self.view.printBoard()
+            if (show_debug):
+                print("Fen: " + self.model.getFen())
+                self.view.printBoard()
             move = None
             if (self.model.getWhoseTurn() == PlayerColor.WHITE):
-                print("White players turn, what will be your move...")
+                if (show_debug):
+                    print("White players turn, what will be your move...")
                 move = self.white_player.getNextMove()
             else:
-                print ("Black players turn, what will be your move...")
+                if (show_debug):
+                    print ("Black players turn, what will be your move...")
                 move = self.black_player.getNextMove()
             
             if (self.model.isMoveLegal(move)):
                 self.model.movePiece(move)
             else:
-                print("Move not valid.")
+                if (show_debug):
+                    print("Move not valid.")
 
-        print("Game over. Result: " + str(self.model.getGameOverStatus()))
-        print("Total moves to checkmate: " + str(self.model.getTotalMoves()))
+        if (show_debug):
+            print("Game over. Result: " + str(self.model.getGameOverStatus()))
+            print("Total moves to checkmate: " + str(self.model.getTotalMoves()))
+
         self.view.printBoard()
         return self.model.getGameOverStatus()
 
