@@ -14,7 +14,7 @@ from bot_ci_1 import BotCI1
 from game_over_status import GameOverStatus
 
 
-def evolve(num_games_per_round = 20, num_population = 20, max_evolution_rounds = 20) -> List[GenomeBotCI3]:
+def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
     # Create population
     population : List[GenomeBotCI3] = []
     for i in range(num_population):
@@ -29,6 +29,9 @@ def evolve(num_games_per_round = 20, num_population = 20, max_evolution_rounds =
         # Fitness
         num_wins_per_genome = {}
         for genome in population:
+            print("Genome under test: ")
+            print(genome.to_string())
+
             num_wins_per_genome[genome] = 0
             
             for i in range(num_games_per_round):
@@ -48,41 +51,56 @@ def evolve(num_games_per_round = 20, num_population = 20, max_evolution_rounds =
                 elif i % 2 != 0 and game_over_status == GameOverStatus.BLACK_WIN:
                     num_wins_per_genome[genome] = num_wins_per_genome[genome] + 1
 
+        total_wins_population = 0
+        print("Fitness scores for population: " + str(j-1))
+        for genome in num_wins_per_genome.keys():
+            print(genome.to_string())
+            print("Number of wins for this genom " + str(str(num_wins_per_genome[genome])))
+            total_wins_population += num_wins_per_genome[genome]
+        print("Total wins for this population " + str(j-1) + ": " + str(total_wins_population))
+
         # Breeding pool?
         breeding_pool = []
         for genome in num_wins_per_genome.keys():
             for i in range(num_wins_per_genome[genome] + 1):
                 breeding_pool.append(genome)
+        
+        print("BREEDING POOL")
+        print("===============")
+        for genome in breeding_pool:
+            print(genome.to_string())
+        print("===============")
             
         # Crossover
         parent1 : GenomeBotCI3 = breeding_pool[randint(0, len(breeding_pool) - 1)]
         parent2 : GenomeBotCI3 = breeding_pool[randint(0, len(breeding_pool) - 1)]
+        print("Parent 1 Genome: " + parent1.to_string() + " Wins for this genome: " + str(num_wins_per_genome[parent1]))
+        print("Parent 2 Genome: " + parent2.to_string() + " Wins for this genome: " + str(num_wins_per_genome[parent2]))
 
         child: GenomeBotCI3 = parent1.crossover(parent2)
+        print("Child Genome before mutation: " + child.to_string())
 
         # Mutation
-        child = child.mutate()
+        child = child.mutate(0.4)
+
+        print("Child Genome after mutation: " + child.to_string())
+
 
         # Replacement (lowest performing individual)
         lowest_genome = None
-        lowest_wins = 0
+        lowest_wins = None
 
         for genome in num_wins_per_genome.keys():
             if lowest_genome is None:
                 lowest_genome = genome
+                lowest_wins = num_wins_per_genome[genome]
             elif num_wins_per_genome[genome] < lowest_wins:
                 lowest_genome = genome
+                lowest_wins = num_wins_per_genome[genome]
 
+        print("Lowest performing genome: " + lowest_genome.to_string())
         population.remove(lowest_genome)
         population.append(child)
-
-        total_wins_population = 0
-        print("Fitness scores for population: " + str(j-1))
-        for genome in num_wins_per_genome.keys():
-            print(genome.to_string())
-            print("Number of wins for this genom " + str(num_wins_per_genome[genome]))
-            total_wins_population += num_wins_per_genome[genome]
-        print("Total wins for this population " + str(j-1) + ": " + str(total_wins_population))
 
         print("Population: " + str(j))
         for genome in population:
