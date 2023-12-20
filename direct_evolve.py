@@ -14,7 +14,7 @@ from bot_ci_1 import BotCI1
 from game_over_status import GameOverStatus
 
 
-def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
+def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
     # Create population
     population : List[GenomeBotCI3] = []
     for i in range(num_population):
@@ -73,7 +73,14 @@ def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds =
             
         # Crossover
         parent1 : GenomeBotCI3 = breeding_pool[randint(0, len(breeding_pool) - 1)]
-        parent2 : GenomeBotCI3 = breeding_pool[randint(0, len(breeding_pool) - 1)]
+        # Remove parent 1 from breeding pool
+        breeding_pool_parent_1_removed : List[GenomeBotCI3] = []
+        for genome in breeding_pool:
+            if (genome != parent1):
+                breeding_pool_parent_1_removed.append(genome)
+
+        parent2 : GenomeBotCI3 = breeding_pool_parent_1_removed[randint(0, len(breeding_pool_parent_1_removed) - 1)]
+
         print("Parent 1 Genome: " + parent1.to_string() + " Wins for this genome: " + str(num_wins_per_genome[parent1]))
         print("Parent 2 Genome: " + parent2.to_string() + " Wins for this genome: " + str(num_wins_per_genome[parent2]))
 
