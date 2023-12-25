@@ -16,7 +16,7 @@ def makeGame():
     model = ChessModelImpl()
     view = IAsciiChessViewImpl(model)
     white_player = BotCI3(model, 2, 1, 1000, 0.75)
-    black_player = AIRandomMovesPlayer(model)
+    black_player = BotCI1(model)
     #black_player = AIRandomMovesPlayer(model)
     #white_player = AIRandomMovesPlayer(model)
     return ChessControllerImpl(model, view, white_player, black_player)
@@ -66,4 +66,4 @@ def playMatches(matches : int):
     makeFigure(1, total_moves_list)
 
 if __name__ == '__main__':
-    playMatches(10)
+    playMatches(1000)

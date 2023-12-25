@@ -12,9 +12,14 @@ from bot_stockfish import BotStockfish
 from bot_ci_2 import BotCI2
 from bot_ci_1 import BotCI1
 from game_over_status import GameOverStatus
+from i_figure_generator_impl import FigureGeneratorImpl
+from group_win_data import GroupMatchData
 
 
-def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
+def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds = 10) -> List[GenomeBotCI3]:
+    f = FigureGeneratorImpl()
+    groups_data : List[GroupMatchData]= []
+
     # Create population
     population : List[GenomeBotCI3] = []
     for i in range(num_population):
@@ -33,6 +38,7 @@ def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds =
             print(genome.to_string())
 
             num_wins_per_genome[genome] = 0
+            total_draws = 0
             
             for i in range(num_games_per_round):
                 model = ChessModelImpl()
@@ -46,7 +52,9 @@ def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds =
 
                 game_over_status = controller.run(False)
                 
-                if i % 2 == 0 and game_over_status == GameOverStatus.WHITE_WIN:
+                if game_over_status == GameOverStatus.DRAW:
+                    total_draws+=1
+                elif i % 2 == 0 and game_over_status == GameOverStatus.WHITE_WIN:
                     num_wins_per_genome[genome] = num_wins_per_genome[genome] + 1
                 elif i % 2 != 0 and game_over_status == GameOverStatus.BLACK_WIN:
                     num_wins_per_genome[genome] = num_wins_per_genome[genome] + 1
@@ -58,6 +66,10 @@ def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds =
             print("Number of wins for this genom " + str(str(num_wins_per_genome[genome])))
             total_wins_population += num_wins_per_genome[genome]
         print("Total wins for this population " + str(j-1) + ": " + str(total_wins_population))
+
+        group_data = GroupMatchData(j-1, "Generation Number", "BotCI1", total_wins_population, total_draws, 
+                                    (num_games_per_round * num_population) - total_wins_population - total_draws) #TODO: Auto opponent name
+        groups_data.append(group_data)
 
         # Breeding pool?
         breeding_pool = []
@@ -113,6 +125,7 @@ def evolve(num_games_per_round = 10, num_population = 30, max_evolution_rounds =
         for genome in population:
             print(genome.to_string())
     
+    f.figureGroupVWins(groups_data)
     return population
 
 
