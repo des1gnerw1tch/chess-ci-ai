@@ -4,7 +4,8 @@ from chess_controller_impl import ChessControllerImpl
 from i_chess_model import IChessModel
 from i_chess_model_state import IChessModelState
 from i_figure_generator import IFigureGenerator
-
+from group_win_data import GroupMatchData
+from typing import List
 
 class FigureGeneratorImpl(IFigureGenerator):
 
@@ -31,4 +32,40 @@ class FigureGeneratorImpl(IFigureGenerator):
 
         # Display the plot
         plt.show()
+    
+    def figureGroupVWins(self, data: List[GroupMatchData]):
+        # Get data for all groups
+        x : List[int] = [] # X-axis values
+        wins : List[int] = []
+        losses : List[int] = []
+        draws : List[int] = []
+        for e in data:
+            x.append(e.number)
+            wins.append(e.wins)
+            losses.append(e.losses)
+            draws.append(e.draws)
+
+        # Get name of opponent (assuming all groups face the same opponent)
+        x_label = data[0].number_label
+        opponent_name = data[0].opponent
+    
+
+        y1 = wins  # Y-axis values for first line
+        y2 = losses # Y-axis values for second line
+        y3 = draws  # Y-axis values for third line
+
+        # Plotting the lines
+        plt.plot(x, y1, marker='o', linestyle='-', color='g', label='Wins')  # Plotting the first line
+        plt.plot(x, y2, marker='o', linestyle='-', color='r', label='Losses')  # Plotting the second line
+        plt.plot(x, y3, marker='o', linestyle='-', color='#8b4513', label='Draws')  # Plotting the third line
+        plt.xlabel(x_label)
+        plt.ylabel('Wins, Losses, Draws')
+        plt.title("Wins, Losses, Draws of" + " vs. " + x_label)
+        plt.suptitle('vs. ' + opponent_name, fontsize=12, color='blue')
+        plt.legend()  # Show legend based on label
+
+        # Display the plot
+        plt.grid(True)  # Show grid
+        plt.show()
+
     

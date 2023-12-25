@@ -25,7 +25,7 @@ def getRandomSpotToMoveFrom(state: IChessModelState) -> ISpot:
     spot : ISpot = listOfSpotsWhereCanMove[randint(0, len(listOfSpotsWhereCanMove) - 1)]
     return spot
 
-
+# TODO: Debug statements are commented out, create better system for debug stuff
 def getMovesFromSpot(state: IChessModelState, spot: ISpot) -> Union[List[IMove], None]:
     """
     Gets all valid moves from a given spot location. 
@@ -36,12 +36,13 @@ def getMovesFromSpot(state: IChessModelState, spot: ISpot) -> Union[List[IMove],
     for move in listOfMoves:
         if (spot.equals(move.getLocation())):
             movesFromSpot.append(move)
-    for move in movesFromSpot:
-        print("Moves from spot: " + move.getMoveAsString())
+    #for move in movesFromSpot:
+        #print("Moves from spot: " + move.getMoveAsString())
     
     return movesFromSpot
 
 
+# TODO: Debug statements are commented out, create better system for debug stuff
 def getHighestCaptureMove(state: IChessModelState, spot : ISpot) -> Union[IMove, None]:
     """
     Returns a Move from a spot that captures the greatest value piece. If there is no capturing move available, 
@@ -55,8 +56,8 @@ def getHighestCaptureMove(state: IChessModelState, spot : ISpot) -> Union[IMove,
     for move in movesFromSpot:
         if (state.getPieceAtSpot(move.getDestination()) != Piece.BLANK):
             captureMoves.append(move)
-    for move in captureMoves:
-        print("Capture moves: " + move.getMoveAsString())
+    #for move in captureMoves:
+        #print("Capture moves: " + move.getMoveAsString())
     
     maxCapturePieceValue = 0
     for move in captureMoves:
