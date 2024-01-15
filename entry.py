@@ -70,7 +70,7 @@ def testStockfishELO():
     f = FigureGeneratorImpl()
     elo = 0
     d : List[GroupMatchData] = []
-    # For ELO's 0 to 2000
+    # For ELO's 0 to 1800
     for i in range(0, 10):
         print("==============")
         print("ELO: " + str(elo))
@@ -78,11 +78,11 @@ def testStockfishELO():
         draws = 0
         stockfish_losses = 0
         stockfish_wins = 0
-        # Play 20 games each
-        for i in range (0, 5):
+        # Play X games each
+        for j in range (0, 5):
             model = ChessModelImpl()
             view = IAsciiChessViewImpl(model)
-            white_player = BotCI1(model, False)
+            white_player = BotStockfish(model, 500)
             black_player = BotStockfish(model, elo)
             result = ChessControllerImpl(model, view, white_player, black_player).run()
             if (result == GameOverStatus.DRAW):
@@ -91,8 +91,38 @@ def testStockfishELO():
                 stockfish_losses += 1
             elif (result == GameOverStatus.BLACK_WIN):
                 stockfish_wins += 1
-        d.append(GroupMatchData(elo, "Stockfish ELO", "BotCI1", stockfish_wins, draws, stockfish_losses))
+        d.append(GroupMatchData(elo, "Stockfish ELO", "Stockish ELO: 500", stockfish_wins, draws, stockfish_losses))
         elo+= 200
+
+    f.figureGroupVWins(d)
+
+def testStockfishTimeConstraint():
+    f = FigureGeneratorImpl()
+    time_constraint = 0
+    d : List[GroupMatchData] = []
+    # For Time constraint 0 to 1000 milliseconds
+    for i in range(0, 6):
+        print("==============")
+        print("Time Constraint: " + str(time_constraint))
+        print("==============")
+        draws = 0
+        stockfish_losses = 0
+        stockfish_wins = 0
+        # Play X games each
+        for j in range (0, 10):
+            model = ChessModelImpl()
+            view = IAsciiChessViewImpl(model)
+            white_player = BotStockfish(model, 1000, 500)
+            black_player = BotStockfish(model, 1000, time_constraint)
+            result = ChessControllerImpl(model, view, white_player, black_player).run()
+            if (result == GameOverStatus.DRAW):
+                draws += 1
+            elif (result == GameOverStatus.WHITE_WIN):
+                stockfish_losses += 1
+            elif (result == GameOverStatus.BLACK_WIN):
+                stockfish_wins += 1
+        d.append(GroupMatchData(time_constraint, "Stockfish ELO 1000, time_constraint", "Stockish ELO 1000, time_constraint: 500", stockfish_wins, draws, stockfish_losses))
+        time_constraint+= 200
 
     f.figureGroupVWins(d)
 
@@ -129,5 +159,6 @@ def testChanceGoForKingEffectsResults():
 
 if __name__ == '__main__':
     #testStockfishELO()
-    testChanceGoForKingEffectsResults()
+    testStockfishTimeConstraint()
+    #testChanceGoForKingEffectsResults()
     #playMatches(1000)
