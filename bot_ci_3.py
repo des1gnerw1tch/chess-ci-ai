@@ -51,6 +51,10 @@ class GenomeBotCI3:
 
         return GenomeBotCI3(proximityWeight, pieceValueWeight, maxProximityDistance, chanceGoForKing)
 
+    """
+    Mutates a genome by a mutation scale. mutation_scale defines the maximum relative difference between 
+    original value and mutated value.
+    """
     def mutate(self, mutation_scale : float = 0.1) -> 'GenomeBotCI3':
         proximityWeight = self.proximityWeight
         pieceValueWeight = self.pieceValueWeight
@@ -95,7 +99,7 @@ class BotCI3(IPlayer):
     """
 
     @staticmethod
-    def create_from_genome(state: IChessModelState, genome : GenomeBotCI3, show_debug : bool = True) -> 'GenomeBotCI3':
+    def create_from_genome(state: IChessModelState, genome : GenomeBotCI3, show_debug : bool = True) -> IPlayer:
         return BotCI3(state, genome.proximityWeight, genome.pieceValueWeight, genome.maxProximityDistance, genome.chanceGoForKing, show_debug)
 
     
