@@ -6,6 +6,7 @@ from i_chess_model_state import IChessModelState
 from i_figure_generator import IFigureGenerator
 from group_win_data import GroupMatchData
 from typing import List
+import time
 
 class FigureGeneratorImpl(IFigureGenerator):
 
@@ -66,6 +67,6 @@ class FigureGeneratorImpl(IFigureGenerator):
 
         # Display the plot
         plt.grid(True)  # Show grid
-        plt.show()
+        plt.savefig("fig" + str(time.time()) + ".png")
 
     
