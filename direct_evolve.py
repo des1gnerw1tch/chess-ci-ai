@@ -44,7 +44,7 @@ def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds =
                 model = ChessModelImpl()
                 bot = BotCI3.create_from_genome(model, genome, False)
                 opponent = AIRandomMovesPlayer(model)
-                view = IAsciiChessViewImpl(model, False)
+                view = IAsciiChessViewImpl(model, True)
                 if i % 2 == 0:
                     controller = ChessControllerImpl(model, view, bot, opponent)
                 else:
@@ -129,7 +129,7 @@ def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds =
     return population
 
 
-def evolveStockfish(num_games_per_round = 1, num_population = 2, max_evolution_rounds = 2) -> List[GenomeStockfish]:
+def evolveStockfish(num_games_per_round = 1, num_population = 2, max_evolution_rounds = 1) -> List[GenomeStockfish]:
     f = FigureGeneratorImpl()
     groups_data : List[GroupMatchData]= []
 
@@ -244,8 +244,8 @@ def evolveStockfish(num_games_per_round = 1, num_population = 2, max_evolution_r
 
 
 if __name__ == "__main__":
-    #final_pop = evolve()
-    final_pop = evolveStockfish()
+    final_pop = evolve()
+    #final_pop = evolveStockfish()
     print("Final Population: ")
     for genome in final_pop:
         print(genome.to_string())
