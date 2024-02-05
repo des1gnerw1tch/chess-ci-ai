@@ -13,5 +13,5 @@ class AIRandomMovesPlayer(IPlayer):
     def getNextMove(self) -> IMove:
         listOfMoves = self.state.getValidMoves()
         move = listOfMoves[random.randint(0, len(listOfMoves) - 1)]
-        print(move.getMoveAsString())
+        #print(move.getMoveAsString())
         return move
