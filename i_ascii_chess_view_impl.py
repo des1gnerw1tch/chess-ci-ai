@@ -13,7 +13,7 @@ class IAsciiChessViewImpl(IAsciiChessView):
 
     # IChessViewImpl constructor
     # Returns: None
-    def __init__(self, state:IChessModelState, hide_view : bool = True):
+    def __init__(self, state:IChessModelState, hide_view : bool = False):
         self.state = state
         self.hide_view = hide_view
 
@@ -21,7 +21,7 @@ class IAsciiChessViewImpl(IAsciiChessView):
     # Purpose: print ASCII view of board
     # Returns: None
     def printBoard(self):
-        if (not self.hide_view):
+        if (self.hide_view):
             return
         print(self.state.printAsciiViewIfAvailable())
 
@@ -29,6 +29,6 @@ class IAsciiChessViewImpl(IAsciiChessView):
     # Purpose: print valid moves
     # Returns: None
     def printValidMoves(self):
-        if (not self.hide_view):
+        if (self.hide_view):
             return
         print(self.state.getValidMoves())
