@@ -29,16 +29,17 @@ def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds =
     for genome in population:
         print(genome.to_string())
 
-    # Evolution loop
+    # Per Population
     for j in range(max_evolution_rounds):
         # Fitness
         num_wins_per_genome = {}
+        total_draws = 0
         for genome in population:
             print("Genome under test: ")
             print(genome.to_string())
 
             num_wins_per_genome[genome] = 0
-            total_draws = 0
+            
             
             for i in range(num_games_per_round):
                 model = ChessModelImpl()
@@ -70,7 +71,6 @@ def evolve(num_games_per_round = 10, num_population = 10, max_evolution_rounds =
         group_data = GroupMatchData(j-1, "Generation Number", "AIRandomMovesPlayer", total_wins_population, total_draws, 
                                     (num_games_per_round * num_population) - total_wins_population - total_draws) #TODO: Auto opponent name
         groups_data.append(group_data)
-
         # Breeding pool?
         breeding_pool = []
         for genome in num_wins_per_genome.keys():
@@ -146,12 +146,12 @@ def evolveStockfish(num_games_per_round = 1, num_population = 2, max_evolution_r
     for j in range(max_evolution_rounds):
         # Fitness
         num_wins_per_genome = {}
+        total_draws = 0
         for genome in population:
             print("Genome under test: ")
             print(genome.to_string())
 
             num_wins_per_genome[genome] = 0
-            total_draws = 0
             
             for i in range(num_games_per_round):
                 print("Game " + str(i))
